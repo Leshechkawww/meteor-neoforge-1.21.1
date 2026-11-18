@@ -530,6 +530,7 @@ public class Modules extends System<Modules> {
         add(new WallHack());
         add(new WaypointsModule());
         add(new Xray());
+        add(new AdvancedXray());
         add(new Zoom());
         add(new Blur());
         add(new PopChams());

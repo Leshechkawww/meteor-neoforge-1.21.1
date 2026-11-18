@@ -14,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.joml.Matrix4f;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
@@ -57,8 +58,12 @@ public class Shader {
     }
 
     private String read(String path) {
-        try {
-            return IOUtils.toString(mc.getResourceManager().getResource(MeteorClient.identifier("shaders/" + path)).get().getInputStream(), StandardCharsets.UTF_8);
+        var resource = mc.getResourceManager().getResource(MeteorClient.identifier("shaders/" + path));
+        try (InputStream stream = resource.isPresent()
+            ? resource.get().getInputStream()
+            : Shader.class.getResourceAsStream("/assets/meteor-client/shaders/" + path)) {
+            if (stream == null) throw new IOException("Shader resource not found");
+            return IOUtils.toString(stream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new IllegalStateException("Could not read shader '" + path + "'", e);
         }

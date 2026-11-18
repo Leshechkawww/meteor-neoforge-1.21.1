@@ -1,0 +1,12 @@
+Minecraft 1.21.1 + NeoForge 21.1 + Java 21
+
+1. Put both JAR files from mods into your Minecraft instance's mods folder.
+2. In Meteor's Render category, enable Advanced Xray, or run .toggle advanced-xray in chat.
+3. Press G to configure Advanced XRay, enable the ores you want (for example Diamond Ore).
+4. Advanced XRay also has its own toggle key, normally backslash; check Minecraft Controls if needed. Avoid enabling Meteor's separate Xray module at the same time.
+
+Tested in a development client: both mods loaded, Advanced XRay outlined diamond ore behind stone, and Meteor's Advanced Xray switch turned the outlines on and off. The packaged JARs have not yet been tested in a normal launcher. This is experimental; other Meteor functions are not fully tested.
+
+Advanced XRay 21.0.1: https://github.com/AdvancedXRay/XRay-Mod/tree/mc/neoforge/21.0.1
+Meteor NeoForge fork: https://github.com/TheStonedGamer/meteor-client-neoforge
+Both projects are distributed under GPL-3.0; sources and license are available at the above links.

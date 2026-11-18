@@ -2,7 +2,9 @@
 
 Experimental adaptation based on [TheStonedGamer's NeoForge port](https://github.com/TheStonedGamer/meteor-client-neoforge), itself based on [Meteor Client](https://github.com/MeteorDevelopment/meteor-client). This is an older 0.5.8-based port, not a complete port of Meteor 26.3.
 
-The Java code builds with JDK 21 and Gradle. Core initialization was changed to avoid the NeoForge class discovery error. In a development client, .help listed 38 commands and .toggle fullbright reported that the module was enabled. The visual effect, other modules, Baritone compatibility, and the packaged JAR have not been fully tested. The final cleanup after that run has only been build-tested. The title screen has an experimental purple Meteor label.
+The Java code builds with JDK 21 and Gradle. Core initialization was changed to avoid the NeoForge class discovery error. In a development client, .help listed 38 commands and .toggle fullbright reported that the module was enabled. Fullbright was verified at night in a development client; other modules, Baritone compatibility, and the packaged JAR have not been fully tested. The title screen has an experimental purple Meteor label.
+
+Advanced XRay 21.0.1 can be installed alongside Meteor; the Meteor Render module `Advanced Xray` controls it. The development client successfully outlined hidden diamond ore and toggled it via Meteor. See `dist/INSTALL.txt`; packaged JARs have not been tested in a normal launcher. The original Meteor Xray module remains unreliable. Advanced XRay source: https://github.com/AdvancedXRay/XRay-Mod/tree/mc/neoforge/21.0.1
 
 The experimental binary is at `dist/meteor-neoforge-1.21.1-experimental.jar`. Build with `gradlew.bat build` on Windows. Minecraft 1.21.1 and NeoForge 21.1 are required.
 
@@ -69,5 +71,7 @@ If you use **ANY** code from the source:
 - Your application must also be licensed under the same license.
 
 *If you have any other questions, check our [FAQ](https://meteorclient.com/faq) or ask in our [Discord](https://meteorclient.com/discord) server.*
+
+
 
 
