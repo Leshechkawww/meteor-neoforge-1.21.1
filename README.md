@@ -2,7 +2,7 @@
 
 Experimental adaptation based on [TheStonedGamer's NeoForge port](https://github.com/TheStonedGamer/meteor-client-neoforge), itself based on [Meteor Client](https://github.com/MeteorDevelopment/meteor-client). This is an older 0.5.8-based port, not a complete port of Meteor 26.3.
 
-The Java code builds with JDK 21 and Gradle. A development client reached resource loading, but the log reported a class discovery error. Module functionality and the packaged JAR have not been fully tested. The title screen has an experimental purple Meteor label.
+The Java code builds with JDK 21 and Gradle. Core initialization was changed to avoid the NeoForge class discovery error. In a development client, .help listed 38 commands and .toggle fullbright reported that the module was enabled. The visual effect, other modules, Baritone compatibility, and the packaged JAR have not been fully tested. The final cleanup after that run has only been build-tested. The title screen has an experimental purple Meteor label.
 
 The experimental binary is at `dist/meteor-neoforge-1.21.1-experimental.jar`. Build with `gradlew.bat build` on Windows. Minecraft 1.21.1 and NeoForge 21.1 are required.
 
@@ -69,4 +69,5 @@ If you use **ANY** code from the source:
 - Your application must also be licensed under the same license.
 
 *If you have any other questions, check our [FAQ](https://meteorclient.com/faq) or ask in our [Discord](https://meteorclient.com/discord) server.*
+
 

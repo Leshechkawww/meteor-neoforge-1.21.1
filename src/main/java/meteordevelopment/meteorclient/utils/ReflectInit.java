@@ -20,13 +20,42 @@ import java.util.stream.Collectors;
 
 public class ReflectInit {
     private static final List<Reflections> reflections = new ArrayList<>();
+    // NeoForge's union: URLs cannot be scanned by Reflections. Keep core init
+    // classes explicit so the same initialization runs in dev and packaged jars.
+    private static final Class<?>[] CORE_INIT_CLASSES = {
+        meteordevelopment.meteorclient.pathing.PathManagers.class,
+        meteordevelopment.meteorclient.commands.Commands.class,
+        meteordevelopment.meteorclient.renderer.PostProcessRenderer.class,
+        meteordevelopment.meteorclient.renderer.GL.class,
+        meteordevelopment.meteorclient.renderer.Fonts.class,
+        meteordevelopment.meteorclient.utils.world.BlockUtils.class,
+        meteordevelopment.meteorclient.utils.world.BlockIterator.class,
+        meteordevelopment.meteorclient.renderer.Renderer2D.class,
+        meteordevelopment.meteorclient.utils.Utils.class,
+        meteordevelopment.meteorclient.renderer.Shaders.class,
+        meteordevelopment.meteorclient.utils.render.RenderUtils.class,
+        meteordevelopment.meteorclient.utils.network.MeteorExecutor.class,
+        meteordevelopment.meteorclient.utils.network.Capes.class,
+        meteordevelopment.meteorclient.gui.tabs.Tabs.class,
+        meteordevelopment.meteorclient.utils.render.postprocess.PostProcessShaders.class,
+        meteordevelopment.meteorclient.utils.render.color.RainbowColors.class,
+        meteordevelopment.meteorclient.utils.render.postprocess.ChamsShader.class,
+        meteordevelopment.meteorclient.utils.render.PlayerHeadUtils.class,
+        meteordevelopment.meteorclient.utils.misc.Names.class,
+        meteordevelopment.meteorclient.utils.misc.MeteorStarscript.class,
+        meteordevelopment.meteorclient.utils.player.Rotations.class,
+        meteordevelopment.meteorclient.utils.player.EChestMemory.class,
+        meteordevelopment.meteorclient.utils.player.ChatUtils.class,
+        meteordevelopment.meteorclient.utils.misc.FakeClientPlayer.class,
+        meteordevelopment.meteorclient.utils.misc.CPSUtils.class,
+        meteordevelopment.meteorclient.gui.renderer.GuiRenderer.class,
+        meteordevelopment.meteorclient.gui.GuiThemes.class
+    };
 
     private ReflectInit() {
     }
 
     public static void registerPackages() {
-        add(MeteorClient.ADDON);
-
         for (MeteorAddon addon : AddonManager.ADDONS) {
             try {
                 add(addon);
@@ -56,16 +85,24 @@ public class ReflectInit {
     }
 
     public static void init(Class<? extends Annotation> annotation) {
+        Set<Method> coreTasks = new HashSet<>();
+        for (Class<?> clazz : CORE_INIT_CLASSES) {
+            for (Method method : clazz.getDeclaredMethods()) {
+                if (method.isAnnotationPresent(annotation)) coreTasks.add(method);
+            }
+        }
+        runTasks(annotation, coreTasks);
         for (Reflections reflection : reflections) {
             Set<Method> initTasks = reflection.getMethodsAnnotatedWith(annotation);
-            if (initTasks == null) return;
+            if (initTasks != null) runTasks(annotation, initTasks);
+        }
+    }
 
-            Map<Class<?>, List<Method>> byClass = initTasks.stream().collect(Collectors.groupingBy(Method::getDeclaringClass));
-            Set<Method> left = new HashSet<>(initTasks);
-
-            for (Method m; (m = left.stream().findAny().orElse(null)) != null; ) {
-                reflectInit(m, annotation, left, byClass);
-            }
+    private static void runTasks(Class<? extends Annotation> annotation, Set<Method> initTasks) {
+        Map<Class<?>, List<Method>> byClass = initTasks.stream().collect(Collectors.groupingBy(Method::getDeclaringClass));
+        Set<Method> left = new HashSet<>(initTasks);
+        for (Method m; (m = left.stream().findAny().orElse(null)) != null; ) {
+            reflectInit(m, annotation, left, byClass);
         }
     }
 

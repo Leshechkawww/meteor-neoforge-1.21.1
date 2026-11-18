@@ -117,20 +117,6 @@ public class MeteorClient {
         // Pre init
         ReflectInit.init(PreInit.class);
 
-        // NeoForge loads development mods through a union filesystem which is not
-        // enumerable by Reflections. Keep this required renderer invariant intact
-        // when core annotation discovery is unavailable.
-        if (PostProcessShaders.CHAMS == null) PostProcessShaders.init();
-        if (MeteorExecutor.executor == null) MeteorExecutor.init();
-        if (Shaders.TEXT == null) Shaders.init();
-        if (Renderer2D.COLOR == null) Renderer2D.init();
-        if (Fonts.RENDERER == null) Fonts.refresh();
-        if (GuiThemes.get() == null) GuiThemes.init();
-        if (Tabs.get().isEmpty()) {
-            PathManagers.init();
-            Tabs.init();
-        }
-        MeteorStarscript.init();
 
         // Register module categories
         Categories.init();
@@ -152,9 +138,6 @@ public class MeteorClient {
 
         // Post init
         ReflectInit.init(PostInit.class);
-        if (GuiThemes.get() == null) GuiThemes.postInit();
-        if (GuiRenderer.TRIANGLE == null) GuiRenderer.init();
-        if (ChatUtils.getMeteorPrefix() == null) ChatUtils.init();
 
         // Save on shutdown
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
